@@ -1,13 +1,48 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>movieDetails</ion-title>
+<ion-header>
+  <ion-toolbar color="success">
+    <ion-title>
+      <div class="title-text-container">{{ movie?.title }}</div>
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/movies"></ion-back-button></ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">movieDetails</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-card *ngIf="movie">
+    <img [src]="imageBaseUrl + '/w400' + movie.poster_path" class="movie-img" />
+
+
+    <ion-card-header>
+      <ion-card-title> {{ movie.title }} </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content><ion-text color="tertiary">
+        <span *ngFor="let genre of movie.genres; let isLast = last">{{ genre.name }}{{ !isLast ? ' . ' : '' }}</span>
+      </ion-text>
+      <ion-card-subtitle class="tagLine">{{ movie.tagline }} </ion-card-subtitle>
+
+      <ion-label color="medium">{{movie.overview}}</ion-label>
+
+      <ion-item lines="none">
+        <ion-icon name="calendar-outline" slot="start"></ion-icon>
+        <ion-label>{{movie.release_date | date: 'y'}}</ion-label>
+      </ion-item>
+
+      <ion-item line="none">
+        <ion-icon name="cash-outline" slot="start"></ion-icon>
+        <ion-label>{{movie.budget | currency: 'USD'}}</ion-label>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-icon name="body-outline" slot="start"></ion-icon>
+        <ion-label>
+          {{ adult ? '18+' : 'For all ages' }}
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+
+<ion-footer>
+  <ion-button expand="full" (click)="openHomepage()"> Open Homepage </ion-button>
+</ion-footer>

@@ -36,6 +36,7 @@ export class MovieService {
 
   getTopRatedMovies(page = 1): Observable<ApiResult> {
     return this.http.get<ApiResult>(`${environment.baseUrl}/movie/popular?api_key=${environment.apiKey}&page=${page}`)
+
   }
 
   getMovieDetails(id: string) {
