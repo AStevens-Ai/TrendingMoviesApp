@@ -4,11 +4,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="dark-background">
   <ion-list>
     <ion-item button *ngFor="let item of movies" [routerLink]="[item.id]">
       <ion-avatar slot="start">
-        <img [src]="imageBaseUrl + '/w92' + item.poster_path" />
+        <img [src]="getSecureImageUrl(item.poster_path)" (error)="handleImageError()" />
       </ion-avatar>
 
       <ion-label class="ion-text-wrap">
@@ -16,7 +16,7 @@
         <p>{{ item.release_date | date:'y' }}</p>
       </ion-label>
 
-      <ion-badge slot="end"> {{ item.vote_average }} </ion-badge>
+      <ion-badge slot="end"> {{ item.vote_average | number: "1.0-0"}} </ion-badge>
     </ion-item>
   </ion-list>
 
@@ -24,3 +24,4 @@
     <ion-infinite-scroll-content loadingSpinner="bubbles"
       loadingText="Loading more movies..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
+</ion-content>

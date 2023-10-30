@@ -15,12 +15,29 @@ export class MoviesPage {
   imageBaseUrl = environment.images;
   subscription!: Subscription;
 
+
   @ViewChild(IonContent, { static: true }) content!: IonContent;
 
   constructor(
     private movieService: MovieService,
     private loadingCtrl: LoadingController
   ) { }
+
+  sortItemsByVoteAverage() {
+    this.movies.sort((a, b) => b.vote_average - a.vote_average);
+  }
+  ngOnInIt() {
+    this.sortItemsByVoteAverage();
+  }
+
+  getSecureImageUrl(posterPath: string): string {
+    // Prepend the secure base URL to the posterPath
+    const secureUrl = `${this.imageBaseUrl}/w500${posterPath}`;
+    console.log('Secure URL:', secureUrl);
+    return secureUrl;
+  }
+
+  handleImageError() { }
 
   async ionViewDidEnter() {
     await this.loadMovies();
@@ -43,6 +60,7 @@ export class MoviesPage {
       next: (res) => {
         if (!event) {
           this.movies = res.results;
+          this.sortItemsByVoteAverage();
         } else {
           this.movies.push(...res.results);
         }
@@ -52,7 +70,7 @@ export class MoviesPage {
         }
 
         if (!event && loading) {
-          loading.dismiss();
+          loading.dismiss(); // Corrected line
         }
       },
       error: (err) => {

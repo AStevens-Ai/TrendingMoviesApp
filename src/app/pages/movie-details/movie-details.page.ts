@@ -13,6 +13,7 @@ interface Movie {
   overview: string;
   adult: boolean;
   homepage: string;
+  item: any;
 }
 
 @Component({
@@ -26,6 +27,16 @@ export class MovieDetailsPage implements OnInit {
   adult: boolean = false;
 
   constructor(private route: ActivatedRoute, private movieService: MovieService) { }
+
+  getSecureImageUrl(posterPath: string): string {
+    // Prepend the secure base URL to the posterPath
+    const secureUrl = `${this.imageBaseUrl}/w500${posterPath}`;
+    console.log('Secure URL:', secureUrl);
+    return secureUrl;
+  }
+  handleImageError() {
+
+  }
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');

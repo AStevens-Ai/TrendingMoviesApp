@@ -8,9 +8,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="dark-background">
   <ion-card *ngIf="movie">
-    <img [src]="imageBaseUrl + '/w400' + movie.poster_path" class="movie-img" />
+    <img [src]="getSecureImageUrl(movie.poster_path)" (error)="handleImageError()" />
 
 
     <ion-card-header>
